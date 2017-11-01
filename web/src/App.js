@@ -1,20 +1,13 @@
 import React, { Component } from 'react';
-// import { AppRegistry,
-//         FlatList,
-//         StyleSheet,
-//         Text,
-//         View,
-//         Button
-// } from '../../dist/ReactNative';
-
-import { AppRegistry,
-        FlatList,
-        StyleSheet,
-        Text,
-        View,
-        Button,
+import {
+    AppRegistry,
+    FlatList,
+    StyleSheet,
+    Text,
+    View,
+    Button,
     ListView
-} from '../../dist/ReactNative';
+} from '../../src';
 
 // export class App extends Component {
 //     constructor(props) {
@@ -34,7 +27,6 @@ import { AppRegistry,
 //     }
 // }
 var ITEM_HEIGHT = 100;
-
 export default class App extends Component {
 
     _flatList;
@@ -59,7 +51,7 @@ export default class App extends Component {
 
     render() {
         var data = [];
-        for (var i = 0; i < 100; i++) {
+        for (var i = 0; i < 10; i++) {
             data.push({key: i, title: i + ''});
         }
 

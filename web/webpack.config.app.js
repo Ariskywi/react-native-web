@@ -1,28 +1,29 @@
 const path = require('path');
 const webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+    .BundleAnalyzerPlugin;
 
 const SRC_DIRECTORY = path.resolve(__dirname, '../src');
 const DIST_DIRECTORY = path.join(__dirname, '../icbc');
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   entry: {
     app: [
         path.join(__dirname, './index.js')
-    ]
+    ],
     // ReactNative: SRC_DIRECTORY
 },
-  externals: [
-    {
-      react: {
-        root: 'React',
-        commonjs2: 'react',
-        commonjs: 'react',
-        amd: 'react'
-      }
-    }
-  ],
+  // externals: [
+  //   {
+  //     react: {
+  //       root: 'React',
+  //       commonjs2: 'react',
+  //       commonjs: 'react',
+  //       amd: 'react'
+  //     }
+  //   }
+  // ],
   module: {
     rules: [
       {
@@ -44,8 +45,8 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    library: 'ReactNative',
-    libraryTarget: 'umd',
+    // library: 'ReactNative',
+    // libraryTarget: 'umd',
     path: DIST_DIRECTORY,
     chunkFilename: '[name].chunk.js',
     publicPath: '/icbc'
