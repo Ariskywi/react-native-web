@@ -47,14 +47,14 @@ module.exports = {
       analyzerMode: 'static',
       openAnalyzer: false
     }),
-    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        dead_code: true,
-        drop_console: true,
-        screw_ie8: true,
-        warnings: false
-      }
-    })
+    new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('development') }),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     dead_code: true,
+    //     drop_console: true,
+    //     screw_ie8: true,
+    //     warnings: false
+    //   }
+    // })
   ]
 };

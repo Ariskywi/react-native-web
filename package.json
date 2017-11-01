@@ -11,6 +11,8 @@
     "!**/__tests__"
   ],
   "scripts": {
+    "start": "webpack-dev-server --config web/webpack.config.app.js",
+    "webstart": "node_modules/.bin/webpack-dev-server -d --config web/webpack.config.js --inline --hot --colors",
     "benchmark": "cd benchmarks && yarn && webpack && open index.html",
     "build": "yarn clean-dist && yarn compile && webpack --config webpack.config.js --sort-assets-by --progress",
     "clean-dist": "del ./dist && mkdir dist",
@@ -102,7 +104,8 @@
     "react-test-renderer": "^16.0.0",
     "url-loader": "^0.5.9",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.9.0"
+    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-dev-server": "^2.9.3"
   },
   "peerDependencies": {
     "react": "16.x.x",
