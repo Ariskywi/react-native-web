@@ -643,7 +643,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             );
         }
         const scrollProps = {
-            ...this.props,
+            // ...this.props,
             onContentSizeChange: this._onContentSizeChange,
             onLayout: this._onLayout,
             onScroll: this._onScroll,

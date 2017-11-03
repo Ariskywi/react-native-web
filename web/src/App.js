@@ -51,7 +51,7 @@ export default class App extends Component {
 
     render() {
         var data = [];
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 20; i++) {
             data.push({key: i, title: i + ''});
         }
 
@@ -70,23 +70,29 @@ export default class App extends Component {
                         ItemSeparatorComponent={this._separator}
                         renderItem={this._renderItem}
 
-                        //numColumns ={3}
-                        //columnWrapperStyle={{borderWidth:2,borderColor:'black',paddingLeft:20}}
+                        // numColumns ={3}
+                        // columnWrapperStyle={{borderWidth:10,borderColor:'black',paddingLeft:20}}
 
-                        //horizontal={true}
+                        horizontal={false}
 
-                        //getItemLayout={(data,index)=>(
-                        //{length: ITEM_HEIGHT, offset: (ITEM_HEIGHT+2) * index, index}
-                        //)}
+                        // getItemLayout={(data,index)=>(
+                        //     {length: ITEM_HEIGHT*3, offset: (ITEM_HEIGHT+2) * index, index}
+                        // )}
 
-                        //onEndReachedThreshold={5}
-                        //onEndReached={(info)=>{
-                        //console.warn(info.distanceFromEnd);
-                        //}}
-
-                        //onViewableItemsChanged={(info)=>{
-                        //console.warn(info);
-                        //}}
+                        // onEndReachedThreshold={5}
+                        // onEndReached={(info)=>{
+                        //     console.log(info.distanceFromEnd);
+                        // }}
+                        refreshing={false}
+                        onRefresh={
+                            ()=>{
+                                console.log("正在刷新！")
+                            }
+                        }
+                        initialNumToRender={1}
+                        // onViewableItemsChanged={(info)=>{
+                        // console.warn(info);
+                        // }}
                         data={data}>
                     </FlatList>
                 </View>
