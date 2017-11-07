@@ -175,6 +175,8 @@ export default class ScrollViewBase extends Component {
       <View
         {...other}
         onScroll={this._handleScroll}
+        onTouchStart={onScrollBeginDrag}
+        onTouchEnd={onScrollEndDrag}
         onTouchMove={this._createPreventableScrollHandler(this.props.onTouchMove)}
         onWheel={this._createPreventableScrollHandler(this.props.onWheel)}
         style={[style, !scrollEnabled && styles.scrollDisabled]}

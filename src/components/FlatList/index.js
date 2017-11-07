@@ -171,6 +171,16 @@ type DefaultProps = typeof defaultProps;
 class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
     static defaultProps: DefaultProps = defaultProps;
     props: Props<ItemT>;
+
+    _scrollMetrics = {
+        contentLength: 0,
+        dOffset: 0,
+        dt: 10,
+        offset: 0,
+        timestamp: 0,
+        velocity: 0,
+        visibleLength: 0,
+    };
     /**
      * Scrolls to the end of the content. May be janky without `getItemLayout` prop.
      */
@@ -349,11 +359,11 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     _pushMultiColumnViewable(arr: Array<ViewToken>, v: ViewToken): void {
         const {numColumns, keyExtractor} = this.props;
-    v.item.forEach((item, ii) => {
-        invariant(v.index != null, 'Missing index!');
-        const index = v.index * numColumns + ii;
-        arr.push({...v, item, key: keyExtractor(item, index), index});
-    });
+        v.item.forEach((item, ii) => {
+            invariant(v.index != null, 'Missing index!');
+            const index = v.index * numColumns + ii;
+            arr.push({...v, item, key: keyExtractor(item, index), index});
+        });
     }
 
     _onViewableItemsChanged = info => {

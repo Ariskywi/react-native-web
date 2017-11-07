@@ -643,7 +643,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             );
         }
         const scrollProps = {
-            // ...this.props,
+            ...this.props,
             onContentSizeChange: this._onContentSizeChange,
             onLayout: this._onLayout,
             onScroll: this._onScroll,
@@ -692,6 +692,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
     _frames = {};
     _footerLength = 0;
     _scrollMetrics = {
+        beginY: 0,
         contentLength: 0,
         dOffset: 0,
         dt: 10,
@@ -699,6 +700,11 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         timestamp: 0,
         velocity: 0,
         visibleLength: 0,
+    };
+    _scrollDragMetrics = {
+        // 下拉值
+        dragY: 0,
+        dragTimestamp: 0,
     };
     _scrollRef = (null: any);
     _sentEndForContentLength = 0;
@@ -720,9 +726,32 @@ class VirtualizedList extends React.PureComponent<Props, State> {
     }
 
     _defaultRenderScrollComponent = props => {
+        const {
+            ListHeaderComponent,
+            ListFooterComponent,
+            getItemCount,
+            getItem,
+            windowSize,
+            updateCellsBatchingPeriod,
+            ItemSeparatorComponent,
+            renderItem,
+            maxToRenderPerBatch,
+            keyExtractor,
+            disableVirtualization,
+            initialNumToRender,
+            onViewableItemsChanged,
+            onEndReached,
+            onEndReachedThreshold,
+            getItemLayout,
+            columnWrapperStyle,
+            numColumns,
+            onRefresh,
+            refreshing,
+            ...eleProps
+        } = props;
         if (this._isNestedWithSameOrientation()) {
-            return <View {...props} />;
-        } else if (props.onRefresh) {
+            return <View {...eleProps} />;
+        } else if (props.refreshing) {
             invariant(
                 typeof props.refreshing === 'boolean',
                 '`refreshing` prop must be set as a boolean in order to use `onRefresh`, but got `' +
@@ -731,18 +760,18 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             );
             return (
                 <ScrollView
-                    {...props}
+                    {...eleProps}
                     refreshControl={
                         <RefreshControl
                             refreshing={props.refreshing}
-                            onRefresh={props.onRefresh}
-                            progressViewOffset={props.progressViewOffset}
+                            onRefresh={eleProps.onRefresh}
+                            progressViewOffset={eleProps.progressViewOffset}
                         />
                     }
                 />
             );
         } else {
-            return <ScrollView {...props} />;
+            return <ScrollView {...eleProps} />;
         }
     };
 
@@ -932,6 +961,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             );
             this._hasWarned.perf = true;
         }
+        // dOffset 负值为向上，正值为向下
         const dOffset = offset - this._scrollMetrics.offset;
         const velocity = dOffset / dt;
         this._scrollMetrics = {
@@ -943,6 +973,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             velocity,
             visibleLength,
         };
+
         this._updateViewableItems(this.props.data);
         if (!this.props) {
             return;
@@ -988,12 +1019,33 @@ class VirtualizedList extends React.PureComponent<Props, State> {
     }
 
     _onScrollBeginDrag = (e): void => {
+        // 记录drag初始值
+        const { locationY, timestamp } = e.nativeEvent;
+        const delta = timestamp - this._scrollDragMetrics.dragTimestamp;
+        if(delta > 500){
+            this._scrollDragMetrics.dragY = locationY;
+            this._scrollDragMetrics.dragTimestamp = timestamp
+        }
         this._viewabilityHelper.recordInteraction();
         this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e);
     };
 
     _onScrollEndDrag = (e): void => {
-        const {velocity} = e.nativeEvent;
+        const {velocity, locationY, timestamp } = e.nativeEvent;
+        if(this.props.onRefresh){
+            // 计算拖动值
+            const delta = timestamp - this._scrollDragMetrics.dragTimestamp;
+            const distance = Math.abs(locationY - this._scrollDragMetrics.dragY);
+            // console.log(locationY);
+            // console.log(this._scrollDragMetrics.dragY);
+            // console.log(distance);
+            if((delta > 300) && (distance >50) &&
+                ((this._scrollMetrics.offset === 0) ||
+                this._scrollMetrics.offset * this._scrollMetrics.dOffset > 0)
+            ){
+                this.props.onRefresh(e);
+            }
+        }
         if (velocity) {
             this._scrollMetrics.velocity = this._selectOffset(velocity);
         }

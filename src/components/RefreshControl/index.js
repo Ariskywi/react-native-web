@@ -15,6 +15,8 @@ import View from '../View';
 import ViewPropTypes from '../View/ViewPropTypes';
 import { arrayOf, bool, func, number, oneOf, string } from 'prop-types';
 import React, { Component } from 'react';
+import StyleSheet from '../../apis/StyleSheet';
+import Text from '../Text'
 
 class RefreshControl extends Component {
   static propTypes = {
@@ -30,6 +32,13 @@ class RefreshControl extends Component {
     title: string,
     titleColor: ColorPropType
   };
+
+    _onRefresh() {
+        this.props.onRefresh && this.props.onRefresh();
+        // The native component will start refreshing so force an update to
+        // make sure it stays in sync with the js component.
+        this.forceUpdate();
+    }
 
   render() {
     const {
@@ -48,8 +57,22 @@ class RefreshControl extends Component {
       ...rest
     } = this.props;
 
-    return <View {...rest} />;
+    return (
+        <View {...rest} >
+            <Text style={styles.mask}>这是一个刷新标记！</Text>
+        </View>
+    );
   }
 }
+const styles = StyleSheet.create({
+    mask: {
+        flex: 1,
+        position: 'absolute',
+        top: 0,
+        width: '100%',
+        height: 50,
+        borderColor: '#d6d7da'
+    }
+});
 
 export default RefreshControl;
