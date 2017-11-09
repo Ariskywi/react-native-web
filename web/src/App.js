@@ -7,7 +7,6 @@ import {
     View,
     Button,
     ListView,
-    RefreshControl,
     TouchableOpacity,
     Dimensions
 } from '../../src';
@@ -68,21 +67,21 @@ export default class App extends Component {
         console.log("开始刷新！");
         const _this = this;
         this.setState({refreshing: true});
-        // setTimeout(() => {
-        //     console.log('刷新完成');
-        //     _this.setState({refreshing: false});
-        //     // // 准备下拉刷新的5条数据
-        //     // const rowData = Array.from(new Array(5))
-        //     //     .map((val, i) => ({
-        //     //         text: '刷新行 ' + (+this.state.loaded + i)
-        //     //     }))
-        //     //     .concat(this.state.rowData);
-        //     //
-        //     // this.setState({
-        //     //     loaded: this.state.loaded + 5,
-        //     //     refreshing: false,
-        //     // });
-        // }, 2000);
+        setTimeout(() => {
+            console.log('刷新完成');
+            _this.setState({refreshing: false});
+            // // 准备下拉刷新的5条数据
+            // const rowData = Array.from(new Array(5))
+            //     .map((val, i) => ({
+            //         text: '刷新行 ' + (+this.state.loaded + i)
+            //     }))
+            //     .concat(this.state.rowData);
+            //
+            // this.setState({
+            //     loaded: this.state.loaded + 5,
+            //     refreshing: false,
+            // });
+        }, 900);
     }
 
     componentDidUpdate(){
@@ -118,7 +117,7 @@ export default class App extends Component {
                         onRefresh={this.onRefresh}
                         onEndReachedThreshold={0.1}
                         onEndReached={(info) => {
-                            alert("滑动到底部了");
+                            alert('滑动到底部！')
                         } }
 
                         onViewableItemsChanged={(info) => {

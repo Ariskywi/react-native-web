@@ -1,7 +1,4 @@
 /**
- * Copyright (c) 2015-present, Facebook, Inc.
- * All rights reserved.
- *
  * @providesModule VirtualizedList
  * @flow
  * @format
@@ -36,135 +33,42 @@ type renderItemType = (info: any) => ?React.Element<any>;
 
 type RequiredProps = {
     renderItem: renderItemType,
-    /**
-     * The default accessor functions assume this is an Array<{key: string}> but you can override
-     * getItem, getItemCount, and keyExtractor to handle any type of index-based data.
-     */
     data?: any,
-    /**
-     * A generic accessor for extracting an item from any sort of data blob.
-     */
     getItem: (data: any, index: number) => ?Item,
-    /**
-     * Determines how many items are in the data blob.
-     */
     getItemCount: (data: any) => number,
 };
 type OptionalProps = {
-    /**
-     * `debug` will turn on extra logging and visual overlays to aid with debugging both usage and
-     * implementation, but with a significant perf hit.
-     */
     debug?: ?boolean,
-    /**
-     * DEPRECATED: Virtualization provides significant performance and memory optimizations, but fully
-     * unmounts react instances that are outside of the render window. You should only need to disable
-     * this for debugging purposes.
-     */
     disableVirtualization: boolean,
-    /**
-     * A marker property for telling the list to re-render (since it implements `PureComponent`). If
-     * any of your `renderItem`, Header, Footer, etc. functions depend on anything outside of the
-     * `data` prop, stick it here and treat it immutably.
-     */
     extraData?: any,
     getItemLayout?: (
         data: any,
         index: number,
     ) => {length: number, offset: number, index: number}, // e.g. height, y
     horizontal?: ?boolean,
-    /**
-     * How many items to render in the initial batch. This should be enough to fill the screen but not
-     * much more. Note these items will never be unmounted as part of the windowed rendering in order
-     * to improve perceived performance of scroll-to-top actions.
-     */
     initialNumToRender: number,
-    /**
-     * Instead of starting at the top with the first item, start at `initialScrollIndex`. This
-     * disables the "scroll to top" optimization that keeps the first `initialNumToRender` items
-     * always rendered and immediately renders the items starting at this initial index. Requires
-     * `getItemLayout` to be implemented.
-     */
     initialScrollIndex?: ?number,
-    /**
-     * Reverses the direction of scroll. Uses scale transforms of -1.
-     */
     inverted?: ?boolean,
     keyExtractor: (item: Item, index: number) => string,
-    /**
-     * Each cell is rendered using this element. Can be a React Component Class,
-     * or a render function. Defaults to using View.
-     */
     CellRendererComponent?: ?React.ComponentType<any>,
-    /**
-     * Rendered when the list is empty. Can be a React Component Class, a render function, or
-     * a rendered element.
-     */
     ListEmptyComponent?: ?(React.ComponentType<any> | React.Element<any>),
-    /**
-     * Rendered at the bottom of all the items. Can be a React Component Class, a render function, or
-     * a rendered element.
-     */
     ListFooterComponent?: ?(React.ComponentType<any> | React.Element<any>),
-    /**
-     * Rendered at the top of all the items. Can be a React Component Class, a render function, or
-     * a rendered element.
-     */
     ListHeaderComponent?: ?(React.ComponentType<any> | React.Element<any>),
-    /**
-     * The maximum number of items to render in each incremental render batch. The more rendered at
-     * once, the better the fill rate, but responsiveness my suffer because rendering content may
-     * interfere with responding to button taps or other interactions.
-     */
     maxToRenderPerBatch: number,
     onEndReached?: ?(info: {distanceFromEnd: number}) => void,
     onEndReachedThreshold?: ?number, // units of visible length
     onLayout?: ?Function,
-    /**
-     * If provided, a standard RefreshControl will be added for "Pull to Refresh" functionality. Make
-     * sure to also set the `refreshing` prop correctly.
-     */
     onRefresh?: ?Function,
-    /**
-     * Called when the viewability of rows changes, as defined by the
-     * `viewabilityConfig` prop.
-     */
     onViewableItemsChanged?: ?(info: {
                                    viewableItems: Array<ViewToken>,
                                    changed: Array<ViewToken>,
                                }) => void,
-    /**
-     * Set this when offset is needed for the loading indicator to show correctly.
-     * @platform android
-     */
     progressViewOffset?: number,
-    /**
-     * Set this true while waiting for new data from a refresh.
-     */
     refreshing?: ?boolean,
-    /**
-     * Note: may have bugs (missing content) in some circumstances - use at your own risk.
-     *
-     * This may improve scroll performance for large lists.
-     */
     removeClippedSubviews?: boolean,
-    /**
-     * Render a custom scroll component, e.g. with a differently styled `RefreshControl`.
-     */
     renderScrollComponent?: (props: Object) => React.Element<any>,
-    /**
-     * Amount of time between low-pri item render batches, e.g. for rendering items quite a ways off
-     * screen. Similar fill rate/responsiveness tradeoff as `maxToRenderPerBatch`.
-     */
     updateCellsBatchingPeriod: number,
     viewabilityConfig?: ViewabilityConfig,
-    /**
-     * Determines the maximum number of items rendered outside of the visible area, in units of
-     * visible lengths. So if your list fills the screen, then `windowSize={21}` (the default) will
-     * render the visible screen area plus up to 10 screens above and 10 below the viewport. Reducing
-     * this number will reduce memory consumption and may improve performance, but will increase the
-     * chance that fast scrolling may reveal momentary blank areas of unrendered content.
-     */
     windowSize: number,
 };
 /* $FlowFixMe - this Props seems to be missing a bunch of stuff. Remove this
