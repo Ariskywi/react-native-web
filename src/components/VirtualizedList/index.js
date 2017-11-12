@@ -4,6 +4,7 @@
  * @format
  */
 import React from 'react';
+import ReactDOM from 'react-dom';
 import ScrollView from '../ScrollView';
 import invariant from 'fbjs/lib/invariant';
 import Batchinator from '../../apis/InteractionManager/Batchinator';
@@ -938,14 +939,21 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         this._scrollDragMetrics.screenY = this._scrollDragMetrics.startScreenY = e.touches[0].screenY;
     }
 
+    isEdge = (ele: any) => {
+        if (ele && ele === document.body) {
+            // In chrome61 `document.body.scrollTop` is invalid
+            const scrollNode = document.scrollingElement ? document.scrollingElement : document.body;
+            return scrollNode.scrollTop <= 0;
+        }
+        return ele.scrollTop <= 0;
+    }
+
     _onTouchMove = (e): void => {
         const _screenY = e.touches[0].screenY;
         // 只处理向下的
         if (this._scrollDragMetrics.startScreenY > _screenY) {
             return;
         }
-        // e.preventDefault();
-        // e.stopPropagation();
 
         const distance = Math.round(_screenY - this._scrollDragMetrics.screenY);
         this._scrollDragMetrics.screenY = _screenY;
@@ -953,11 +961,12 @@ class VirtualizedList extends React.PureComponent<Props, State> {
     }
 
     _onTouchEnd = (e): void => {
-        console.log(this._scrollDragMetrics.distanceChange);
         if(this.props.onRefresh) {
+            const ele = ReactDOM.findDOMNode(this);
             if (Math.abs(this._scrollDragMetrics.distanceChange) > DISTANCE_TO_REFRESH &&
                 ((this._scrollMetrics.offset === 0) ||
-                this._scrollMetrics.offset * this._scrollMetrics.dOffset > 0)
+                this._scrollMetrics.offset * this._scrollMetrics.dOffset > 0) &&
+                this.isEdge(ele)
             ) {
                 this.props.onRefresh(e);
             }

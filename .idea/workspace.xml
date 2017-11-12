@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4a6d2a7e-2dd9-42c6-8754-ff8cd0f0163e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/ScrollView/ScrollViewBase.js" afterPath="$PROJECT_DIR$/src/components/ScrollView/ScrollViewBase.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/VirtualizedList/index.js" afterPath="$PROJECT_DIR$/src/components/VirtualizedList/index.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/App.js" afterPath="$PROJECT_DIR$/web/src/App.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -57,8 +54,8 @@
       <file leaf-file-name="pull-to-refresh-demo.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/RefreshControl/pull-to-refresh-demo.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="190" column="5" lean-forward="true" selection-start-line="190" selection-start-column="5" selection-end-line="190" selection-end-column="5" />
+            <state relative-caret-position="-778">
+              <caret line="38" column="18" lean-forward="false" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -69,8 +66,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/VirtualizedList/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="955" column="58" lean-forward="false" selection-start-line="955" selection-start-column="58" selection-end-line="955" selection-end-column="58" />
+            <state relative-caret-position="322">
+              <caret line="964" column="51" lean-forward="false" selection-start-line="964" selection-start-column="51" selection-end-line="964" selection-end-column="51" />
               <folding>
                 <element signature="e#63#89#0" expanded="true" />
               </folding>
@@ -104,12 +101,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>INDICATOR</find>
       <find>deactivate</find>
       <find>release</find>
       <find>indicator</find>
       <find>init</find>
-      <find>getScrollContainer</find>
       <find>setContentStyle</find>
       <find>distanceToRefresh</find>
       <find>_lastScreenY</find>
@@ -134,6 +129,8 @@
       <find>scrollEnabled</find>
       <find>e.pre</find>
       <find>_onTouchMove</find>
+      <find>getScrollContainer</find>
+      <find>isEd</find>
     </findStrings>
     <replaceStrings>
       <replace>IFOPRNList</replace>
@@ -459,12 +456,12 @@
       <updated>1509541774669</updated>
       <workItem from="1509541775969" duration="23595000" />
       <workItem from="1509756875774" duration="63452000" />
-      <workItem from="1510298220195" duration="12869000" />
+      <workItem from="1510298220195" duration="14077000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="99916000" />
+    <option name="totallyTimeSpent" value="101124000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
@@ -915,16 +912,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/RefreshControl/pull-to-refresh-demo.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="190" column="5" lean-forward="true" selection-start-line="190" selection-start-column="5" selection-end-line="190" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ScrollView/ScrollViewBase.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="335">
@@ -933,10 +920,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/RefreshControl/pull-to-refresh-demo.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-778">
+          <caret line="38" column="18" lean-forward="false" selection-start-line="38" selection-start-column="18" selection-end-line="38" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/VirtualizedList/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="955" column="58" lean-forward="false" selection-start-line="955" selection-start-column="58" selection-end-line="955" selection-end-column="58" />
+        <state relative-caret-position="322">
+          <caret line="964" column="51" lean-forward="false" selection-start-line="964" selection-start-column="51" selection-end-line="964" selection-end-column="51" />
           <folding>
             <element signature="e#63#89#0" expanded="true" />
           </folding>
