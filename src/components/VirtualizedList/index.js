@@ -679,8 +679,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
                     {...eleProps}
                     refreshControl={
                         <RefreshControl
-                            refreshing={props.refreshing}
-                            onRefresh={eleProps.onRefresh}
+                            refreshing={null}
                             progressViewOffset={eleProps.progressViewOffset}
                         />
                     }

@@ -114,26 +114,28 @@ export default class App extends Component {
                     this._IFOPRNList.scrollToOffset({ animated: true, offset: 2000 });
                 } }/>
                 <View style={{ flex: 1 }}>
-                    <IFOPRNList
-                        ref={(ifoprnList) => this._ifoprnList = ifoprnList}
-                        ListHeaderComponent={this._header}
-                        ListFooterComponent={this._footer}
-                        ItemSeparatorComponent={this._separator}
-                        renderItem={this._renderItem}
-                        initialNumToRender={5}
-                        numColumns ={2}
-                        columnWrapperStyle={{ borderWidth: 2, borderColor: 'black' }}
-                        getItemLayout={(data, index) => (
-                            { length: ITEM_HEIGHT, offset: (ITEM_HEIGHT + 2) * index, index }
-                        ) }
-                        //onEndReached={this._onEndReached}
+                    <RefreshControl
                         refreshing={this.state.refreshing}
                         onRefresh={this.onRefresh}
-                        data={this.state.data}>
-                    </IFOPRNList>
+                        style={{ flex: 1 }}
+                    >
+                        <IFOPRNList
+                            ref={(ifoprnList) => this._ifoprnList = ifoprnList}
+                            ListHeaderComponent={this._header}
+                            ListFooterComponent={this._footer}
+                            ItemSeparatorComponent={this._separator}
+                            renderItem={this._renderItem}
+                            initialNumToRender={5}
+                            numColumns ={2}
+                            columnWrapperStyle={{ borderWidth: 2, borderColor: 'black' }}
+                            getItemLayout={(data, index) => (
+                                { length: ITEM_HEIGHT, offset: (ITEM_HEIGHT + 2) * index, index }
+                            ) }
+                            //onEndReached={this._onEndReached}
+                            data={this.state.data}>
+                        </IFOPRNList>
+                    </RefreshControl>
                 </View>
-
-
             </View>
         );
     }
