@@ -98,7 +98,7 @@ export default class App extends Component {
             });
 
 
-        }, 1000);
+        }, 500);
     }
 
     componentDidUpdate(){

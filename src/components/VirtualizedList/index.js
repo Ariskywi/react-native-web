@@ -79,6 +79,9 @@ let _usedIndexForKey = false;
 
 type State = {first: number, last: number};
 
+// 下拉刷新的触发距离
+const DISTANCE_TO_REFRESH = 35;
+
 class VirtualizedList extends React.PureComponent<Props, State> {
     props: Props;
 
@@ -548,6 +551,9 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         }
         const scrollProps = {
             ...this.props,
+            onTouchStart: this._onTouchStart,
+            onTouchMove: this._onTouchMove,
+            onTouchEnd: this._onTouchEnd,
             onContentSizeChange: this._onContentSizeChange,
             onLayout: this._onLayout,
             onScroll: this._onScroll,
@@ -605,10 +611,15 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         velocity: 0,
         visibleLength: 0,
     };
+    // 滑动信息对象
     _scrollDragMetrics = {
         // 下拉值
         dragY: 0,
         dragTimestamp: 0,
+        screenY: 0,
+        startScreenY: 0,
+        // 只处理下拉情形
+        distanceChange: 0,
     };
     _scrollRef = (null: any);
     _sentEndForContentLength = 0;
@@ -922,36 +933,49 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         }
     }
 
-    _onScrollBeginDrag = (e): void => {
+    _onTouchStart = (e): void => {
         // 记录drag初始值
-        const { locationY, timestamp } = e.nativeEvent;
-        // console.log(e.touches[0].screenY);
-        // console.log(e.changedTouches[0].clientY);
-        const delta = timestamp - this._scrollDragMetrics.dragTimestamp;
-        if(delta > 500){
-            this._scrollDragMetrics.dragY = locationY;
-            this._scrollDragMetrics.dragTimestamp = timestamp
+        this._scrollDragMetrics.screenY = this._scrollDragMetrics.startScreenY = e.touches[0].screenY;
+    }
+
+    _onTouchMove = (e): void => {
+        const _screenY = e.touches[0].screenY;
+        // 只处理向下的
+        if (this._scrollDragMetrics.startScreenY > _screenY) {
+            return;
         }
+        // e.preventDefault();
+        // e.stopPropagation();
+
+        const distance = Math.round(_screenY - this._scrollDragMetrics.screenY);
+        this._scrollDragMetrics.screenY = _screenY;
+        this._scrollDragMetrics.distanceChange += distance;
+    }
+
+    _onTouchEnd = (e): void => {
+        console.log(this._scrollDragMetrics.distanceChange);
+        if(this.props.onRefresh) {
+            if (Math.abs(this._scrollDragMetrics.distanceChange) > DISTANCE_TO_REFRESH &&
+                ((this._scrollMetrics.offset === 0) ||
+                this._scrollMetrics.offset * this._scrollMetrics.dOffset > 0)
+            ) {
+                this.props.onRefresh(e);
+            }
+        }
+        this._resetTouch();
+    }
+
+    _resetTouch = () => {
+        this._scrollDragMetrics.distanceChange = 0;
+    }
+
+    _onScrollBeginDrag = (e): void => {
         this._viewabilityHelper.recordInteraction();
         this.props.onScrollBeginDrag && this.props.onScrollBeginDrag(e);
     };
 
     _onScrollEndDrag = (e): void => {
-        const {velocity, locationY, timestamp } = e.nativeEvent;
-        if(this.props.onRefresh){
-            // 计算拖动值
-            const delta = timestamp - this._scrollDragMetrics.dragTimestamp;
-            const distance = Math.abs(locationY - this._scrollDragMetrics.dragY);
-            // console.log(locationY);
-            // console.log(this._scrollDragMetrics.dragY);
-            // console.log(distance);
-            if((delta > 300) && (distance >50) &&
-                ((this._scrollMetrics.offset === 0) ||
-                this._scrollMetrics.offset * this._scrollMetrics.dOffset > 0)
-            ){
-                this.props.onRefresh(e);
-            }
-        }
+        const { velocity } = e.nativeEvent;
         if (velocity) {
             this._scrollMetrics.velocity = this._selectOffset(velocity);
         }

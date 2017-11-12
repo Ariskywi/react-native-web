@@ -168,6 +168,8 @@ export default class ScrollViewBase extends Component {
       snapToAlignment,
       zoomScale,
       /* eslint-enable */
+      onTouchStart,
+      onTouchEnd,
       ...other
     } = this.props;
 
@@ -175,8 +177,8 @@ export default class ScrollViewBase extends Component {
       <View
         {...other}
         onScroll={this._handleScroll}
-        onTouchStart={onScrollBeginDrag}
-        onTouchEnd={onScrollEndDrag}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
         onTouchMove={this._createPreventableScrollHandler(this.props.onTouchMove)}
         onWheel={this._createPreventableScrollHandler(this.props.onWheel)}
         style={[style, !scrollEnabled && styles.scrollDisabled]}
