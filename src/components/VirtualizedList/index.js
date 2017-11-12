@@ -925,6 +925,8 @@ class VirtualizedList extends React.PureComponent<Props, State> {
     _onScrollBeginDrag = (e): void => {
         // 记录drag初始值
         const { locationY, timestamp } = e.nativeEvent;
+        // console.log(e.touches[0].screenY);
+        // console.log(e.changedTouches[0].clientY);
         const delta = timestamp - this._scrollDragMetrics.dragTimestamp;
         if(delta > 500){
             this._scrollDragMetrics.dragY = locationY;

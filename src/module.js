@@ -29,6 +29,7 @@ import Vibration from './apis/Vibration';
 import ActivityIndicator from './components/ActivityIndicator';
 import Button from './components/Button';
 import FlatList from './components/FlatList';
+import IFOPRNList from './components/IFOPRNList';
 import Image from './components/Image';
 import KeyboardAvoidingView from './components/KeyboardAvoidingView';
 import ListView from './components/ListView';
@@ -92,6 +93,7 @@ export {
   ActivityIndicator,
   Button,
   FlatList,
+  IFOPRNList,
   Image,
   KeyboardAvoidingView,
   ListView,
@@ -158,6 +160,7 @@ const ReactNative = {
   ActivityIndicator,
   Button,
   FlatList,
+  IFOPRNList,
   Image,
   KeyboardAvoidingView,
   ListView,

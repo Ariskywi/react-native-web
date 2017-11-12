@@ -29,6 +29,7 @@ const getDistLocation = importName => {
     case 'ActivityIndicator':
     case 'Button':
     case 'FlatList':
+    case 'IFOPRNList':
     case 'Image':
     case 'KeyboardAvoidingView':
     case 'ListView':

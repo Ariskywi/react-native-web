@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    FlatList,
+    IFOPRNList,
     StyleSheet,
     Text,
     View,
     Button,
     ListView,
     TouchableOpacity,
+    RefreshControl,
     Dimensions
 } from '../../src';
 
@@ -31,18 +32,27 @@ import {
 const { height, width } = Dimensions.get('window');
 var ITEM_HEIGHT = 100;
 
+var _gCounter = 1;
+function newItem() {
+    return {
+        id: _gCounter++,
+        counter: 0
+    };
+}
 
 export default class App extends Component {
 
     constructor(props) {
         super(props);
+        var data = Array(20).fill().map((e,i) => newItem());
         this.state = {
-            refreshing: false
+            refreshing: false,
+            data:data
         };
     }
     _renderItem = (item) => {
         let item1 = item;
-        var txt = '第' + item1.index + '个' + ' title=' + item1.item.title;
+        var txt = '第' + item1.index + '个' + ' title=' + item1.index;
         var bgColor = item1.index % 2 == 0 ? 'red' : 'blue';
         return (
             <TouchableOpacity onPress={() => {
@@ -63,6 +73,16 @@ export default class App extends Component {
     _separator = () => {
         return <View style={{ height: 2, backgroundColor: 'yellow' }}/>;
     }
+    _onEndReached=(info) => {
+        // alert("到底部啦！");
+        var size = 2;
+        var currCount = this.state.data.length;
+        var newItems = Array(size).fill().map((e,i)=>newItem());
+        setTimeout(() => {
+            _this.state.data.splice(currCount, 0, ...newItems);
+
+        }, 3000);
+    }
     onRefresh = () => {
         console.log("开始刷新！");
         const _this = this;
@@ -70,61 +90,47 @@ export default class App extends Component {
         setTimeout(() => {
             console.log('刷新完成');
             _this.setState({refreshing: false});
-            // // 准备下拉刷新的5条数据
-            // const rowData = Array.from(new Array(5))
-            //     .map((val, i) => ({
-            //         text: '刷新行 ' + (+this.state.loaded + i)
-            //     }))
-            //     .concat(this.state.rowData);
-            //
-            // this.setState({
-            //     loaded: this.state.loaded + 5,
-            //     refreshing: false,
-            // });
-        }, 900);
+
+            //_gCounter = 1;
+            var data = Array(40).fill().map((e,i) => newItem());
+            this.setState({
+                data: data
+            });
+
+
+        }, 1000);
     }
 
     componentDidUpdate(){
 
     }
     render() {
-        var data = [];
-        for (var i = 0; i < 31; i++) {
-            data.push({ key: i, title: i + '' });
-        }
+
         return (
             <View style={{ flex: 1 }}>
                 <Button title='滚动到指定位置' onPress={() => {
-                    //this._flatList.scrollToEnd();
-                    //this._flatList.scrollToIndex({viewPosition:0,index:8});
-                    this._flatList.scrollToOffset({ animated: true, offset: 2000 });
+                    //this._ifoprnList.scrollToEnd();
+                    //this._ifoprnList.scrollToIndex({viewPosition:0,index:8});
+                    this._IFOPRNList.scrollToOffset({ animated: true, offset: 2000 });
                 } }/>
                 <View style={{ flex: 1 }}>
-                    <FlatList
-                        ref={(flatList) => this._flatList = flatList}
+                    <IFOPRNList
+                        ref={(ifoprnList) => this._ifoprnList = ifoprnList}
                         ListHeaderComponent={this._header}
                         ListFooterComponent={this._footer}
                         ItemSeparatorComponent={this._separator}
                         renderItem={this._renderItem}
-
-
+                        initialNumToRender={5}
                         numColumns ={2}
                         columnWrapperStyle={{ borderWidth: 2, borderColor: 'black' }}
-                        refreshing={this.state.refreshing}
                         getItemLayout={(data, index) => (
                             { length: ITEM_HEIGHT, offset: (ITEM_HEIGHT + 2) * index, index }
                         ) }
+                        //onEndReached={this._onEndReached}
+                        refreshing={this.state.refreshing}
                         onRefresh={this.onRefresh}
-                        onEndReachedThreshold={0.1}
-                        onEndReached={(info) => {
-                            alert('滑动到底部！')
-                        } }
-
-                        onViewableItemsChanged={(info) => {
-                            //    alert("可见不可见触发");
-                        } }
-                        data={data}>
-                    </FlatList>
+                        data={this.state.data}>
+                    </IFOPRNList>
                 </View>
 
 

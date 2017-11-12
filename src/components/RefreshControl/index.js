@@ -66,8 +66,7 @@ const styles = StyleSheet.create({
         height: 65
     },
     large: {
-        paddingTop:10,
-        transform: [{ scale: 1}]
+        paddingTop:10
     }
 });
 
