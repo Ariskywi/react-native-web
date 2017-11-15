@@ -81,7 +81,7 @@ let _usedIndexForKey = false;
 type State = {first: number, last: number};
 
 // 下拉刷新的触发距离
-const DISTANCE_TO_REFRESH = 35;
+const DISTANCE_TO_REFRESH = 50;
 
 class VirtualizedList extends React.PureComponent<Props, State> {
     props: Props;
@@ -223,7 +223,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             return String(index);
         },
         maxToRenderPerBatch: 10,
-        onEndReachedThreshold: 2, // multiples of length
+        onEndReachedThreshold: 0.1, // multiples of length
         scrollEventThrottle: 50,
         updateCellsBatchingPeriod: 50,
         windowSize: 21, // multiples of length
@@ -274,7 +274,9 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             this.props.viewabilityConfig,
         );
         this.state = {
+            // 需要渲染的第一个
             first: this.props.initialScrollIndex || 0,
+            // 需要渲染的最后一个
             last:
             Math.min(
                 this.props.getItemCount(this.props.data),
@@ -308,6 +310,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         const {data, extraData, getItemCount, maxToRenderPerBatch} = newProps;
         // first and last could be stale (e.g. if a new, shorter items props is passed in), so we make
         // sure we're rendering a reasonable range here.
+        // 最后一次渲染边界处理
         this.setState({
             first: Math.max(
                 0,
@@ -661,6 +664,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             getItemLayout,
             columnWrapperStyle,
             numColumns,
+            initialScrollIndex,
             onRefresh,
             refreshing,
             ...eleProps
@@ -689,7 +693,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             return <ScrollView {...eleProps} />;
         }
     };
-
+    //动态计算元素高度的方法
     _onCellLayout(e, cellKey, index) {
         const layout = e.nativeEvent.layout;
         const next = {
@@ -897,7 +901,7 @@ class VirtualizedList extends React.PureComponent<Props, State> {
         if (velocity !== 0) {
             this._fillRateHelper.activate();
         }
-        this._computeBlankness();
+        this._computeBlankness();                     //计算空白
         this._scheduleCellsToRenderUpdate();
     };
 
@@ -1142,7 +1146,7 @@ class CellRenderer extends React.Component<
     parentProps: {
     getItemLayout?: ?Function,
         renderItem: renderItemType,
-},
+    },
     prevCellKey: ?string,
 },
 $FlowFixMeState,

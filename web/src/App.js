@@ -12,23 +12,6 @@ import {
     Dimensions
 } from '../../src';
 
-// export class App extends Component {
-//     constructor(props) {
-//         super(props);
-//         var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-//         this.state = {
-//             dataSource: ds.cloneWithRows(['row 1', 'row 2']),
-//         };
-//     }
-//     render() {
-//         return (
-//             <ListView
-//                 dataSource={this.state.dataSource}
-//                 renderRow={(rowData) => <Text>{rowData}</Text>}
-//             />
-//         );
-//     }
-// }
 const { height, width } = Dimensions.get('window');
 var ITEM_HEIGHT = 100;
 
@@ -41,10 +24,10 @@ function newItem() {
 }
 
 export default class App extends Component {
-
+    _ifoprnList
     constructor(props) {
         super(props);
-        var data = Array(20).fill().map((e,i) => newItem());
+        var data = Array(100).fill().map((e,i) => newItem());
         this.state = {
             refreshing: false,
             data:data
@@ -55,10 +38,8 @@ export default class App extends Component {
         var txt = '第' + item1.index + '个' + ' title=' + item1.index;
         var bgColor = item1.index % 2 == 0 ? 'red' : 'blue';
         return (
-            <TouchableOpacity onPress={() => {
-                alert(txt);
-            } }>
-                <Text style={[{ flex: 1, height: ITEM_HEIGHT, backgroundColor: bgColor, width: width / 2 }, styles.txt]}>{txt}</Text>
+            <TouchableOpacity onPress={() => {} }>
+                <Text style={[{ flex: 1, height: ITEM_HEIGHT, backgroundColor: bgColor, width: width}, styles.txt]}>{txt}</Text>
             </TouchableOpacity>
         )
     }
@@ -74,14 +55,10 @@ export default class App extends Component {
         return <View style={{ height: 2, backgroundColor: 'yellow' }}/>;
     }
     _onEndReached=(info) => {
-        // alert("到底部啦！");
         var size = 2;
         var currCount = this.state.data.length;
         var newItems = Array(size).fill().map((e,i)=>newItem());
-        setTimeout(() => {
-            _this.state.data.splice(currCount, 0, ...newItems);
-
-        }, 3000);
+        this.state.data.splice(currCount, 0, ...newItems);
     }
     onRefresh = () => {
         console.log("开始刷新！");
@@ -92,7 +69,7 @@ export default class App extends Component {
             _this.setState({refreshing: false});
 
             //_gCounter = 1;
-            var data = Array(40).fill().map((e,i) => newItem());
+            var data = Array(4000).fill().map((e,i) => newItem());
             this.setState({
                 data: data
             });
@@ -109,10 +86,13 @@ export default class App extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <Button title='滚动到指定位置' onPress={() => {
-                    //this._ifoprnList.scrollToEnd();
-                    //this._ifoprnList.scrollToIndex({viewPosition:0,index:8});
-                    this._IFOPRNList.scrollToOffset({ animated: true, offset: 2000 });
-                } }/>
+                    //console.log(this._ifoprnList)
+                    this._ifoprnList.scrollToEnd();
+                    //this._ifoprnList.scrollToIndex({viewPosition:1,index:30});
+                   // this._ifoprnList.scrollToOffset({ animated: true, offset: 1062 });
+                    //this._ifoprnList.scrollToItem({ animated: true, item: {id:7,counter:0},viewPosition:0 })
+
+                }}/>
                 <View style={{ flex: 1 }}>
                     <RefreshControl
                         refreshing={this.state.refreshing}
@@ -126,12 +106,12 @@ export default class App extends Component {
                             ItemSeparatorComponent={this._separator}
                             renderItem={this._renderItem}
                             initialNumToRender={5}
-                            numColumns ={2}
-                            columnWrapperStyle={{ borderWidth: 2, borderColor: 'black' }}
-                            getItemLayout={(data, index) => (
-                                { length: ITEM_HEIGHT, offset: (ITEM_HEIGHT + 2) * index, index }
-                            ) }
-                            //onEndReached={this._onEndReached}
+                            windowSize={2}
+                            //numColumns={2}
+                              // getItemLayout={(data, index) => (
+                              //     { length: ITEM_HEIGHT, offset: ITEM_HEIGHT  * index, index }
+                             // ) }
+
                             data={this.state.data}>
                         </IFOPRNList>
                     </RefreshControl>
