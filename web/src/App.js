@@ -27,7 +27,7 @@ export default class App extends Component {
     _ifoprnList
     constructor(props) {
         super(props);
-        var data = Array(100).fill().map((e,i) => newItem());
+        var data = Array(1000).fill().map((e,i) => newItem());
         this.state = {
             refreshing: false,
             data:data
@@ -108,9 +108,9 @@ export default class App extends Component {
                             initialNumToRender={5}
                             windowSize={2}
                             //numColumns={2}
-                              // getItemLayout={(data, index) => (
-                              //     { length: ITEM_HEIGHT, offset: ITEM_HEIGHT  * index, index }
-                             // ) }
+                            //    getItemLayout={(data, index) => (
+                            //        { length: ITEM_HEIGHT, offset: ITEM_HEIGHT  * index, index }
+                            //   ) }
 
                             data={this.state.data}>
                         </IFOPRNList>
