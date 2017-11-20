@@ -158,6 +158,8 @@ class MetroListView extends React.Component<Props, $FlowFixMeState> {
           columnWrapperStyle,
           numColumns,
           initialScrollIndex,
+          ListEmptyComponent,
+          progressViewOffset,
           onRefresh,
           refreshing,
           legacyImplementation,

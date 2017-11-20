@@ -665,6 +665,8 @@ class VirtualizedList extends React.PureComponent<Props, State> {
             columnWrapperStyle,
             numColumns,
             initialScrollIndex,
+            ListEmptyComponent,
+            progressViewOffset,
             onRefresh,
             refreshing,
             ...eleProps

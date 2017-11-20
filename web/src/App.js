@@ -27,7 +27,7 @@ export default class App extends Component {
     _ifoprnList
     constructor(props) {
         super(props);
-        var data = Array(1000).fill().map((e,i) => newItem());
+        var data = Array(10).fill().map((e,i) => newItem());
         this.state = {
             refreshing: false,
             data:data
@@ -51,8 +51,14 @@ export default class App extends Component {
     _footer = () => {
         return <Text style={[styles.txt, { backgroundColor: 'black' }]}>这是尾部</Text>;
     }
+    _empty = () => {
+        return <Text style={[styles.txt,{backgroundColor:'green'}]}>没有数据</Text>
+    }
     _separator = () => {
         return <View style={{ height: 2, backgroundColor: 'yellow' }}/>;
+    }
+    _keyExtractor = (item,index) => {
+        return item.id
     }
     _onEndReached=(info) => {
         var size = 2;
@@ -104,9 +110,11 @@ export default class App extends Component {
                             ListHeaderComponent={this._header}
                             ListFooterComponent={this._footer}
                             ItemSeparatorComponent={this._separator}
+                            ListEmptyComponent={this._empty}
                             renderItem={this._renderItem}
                             initialNumToRender={5}
                             windowSize={2}
+                            keyExtractor={this._keyExtractor}
                             //numColumns={2}
                             //    getItemLayout={(data, index) => (
                             //        { length: ITEM_HEIGHT, offset: ITEM_HEIGHT  * index, index }
